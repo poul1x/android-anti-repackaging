@@ -4,11 +4,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION;
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,9 +12,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.Manifest;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runApkHashCheck() {
-        runIntegrityCheck(new ApkHashChecker(), R.id.apkHashCheckResult);
+        runIntegrityCheck(new ApkIntegrityChecker(), R.id.apkHashCheckResult);
     }
 
     private void runIntegrityCheck(IntegrityChecker checker, int resultViewId) {
@@ -106,10 +104,15 @@ public class MainActivity extends AppCompatActivity {
                 R.id.dexFilesCheckResult,
                 R.id.resourcesCheckResult,
                 R.id.nativeLibsCheckResult,
+                // TODO: Android manifest checker
+                // TODO: Signature metadata checker
+                // TODO: Assets folder checker
+                // TODO: Native lib folder checker
+                // TODO: Resources.arsc checker
         };
 
         List<IntegrityChecker> checkers = new ArrayList<>();
-        // checkers.add(new ApkHashChecker());
+        checkers.add(new DexIntegrityChecker());
         //assert checkers.size() == resultsViews.length;
 
         int size = checkers.size();
