@@ -15,9 +15,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class NativeLibIntegrityChecker implements IntegrityChecker {
 
-    private static final String LIB_FOLDER = "lib/";
+    private static final String CPU_ARCH = getCPUArch();
+    private static final String LIB_FOLDER = "lib/" + CPU_ARCH;
     private static final String TAG = NativeLibIntegrityChecker.class.getSimpleName();
-
     private static final String HASH_FILE = "lib_hash.json";
 
     private String mExpectedHash;
@@ -41,7 +41,7 @@ public class NativeLibIntegrityChecker implements IntegrityChecker {
         );
     }
 
-    public static String getCPUArch() throws RuntimeException {
+    private static String getCPUArch() throws RuntimeException {
         String[] supportedABIs = Build.SUPPORTED_ABIS;
         if (supportedABIs == null || supportedABIs.length == 0) {
             throw new RuntimeException("Empty Build.SUPPORTED_ABIS");
@@ -54,7 +54,7 @@ public class NativeLibIntegrityChecker implements IntegrityChecker {
         try {
             Log.i(TAG, String.format("Reading hash file %s", HASH_FILE));
             JSONObject jsonObject = new JSONObject(loadAssetTxtFile(HASH_FILE));
-            mExpectedHash = jsonObject.getString(getCPUArch());
+            mExpectedHash = jsonObject.getString(CPU_ARCH);
 
         } catch (JSONException e) {
             Log.e(TAG, String.format("Failed to load hash file. Reason - %s", e.toString()));
@@ -83,9 +83,7 @@ public class NativeLibIntegrityChecker implements IntegrityChecker {
     private void calculateHash() {
         try {
             Log.i(TAG, String.format("Calculating lib files hash", HASH_FILE));
-            mCalculatedHash = ApkContentIntegrity.getHashFor(name -> {
-                return name.startsWith(LIB_FOLDER + getCPUArch());
-            });
+            mCalculatedHash = ApkContentIntegrity.getHashFor(name -> name.startsWith(LIB_FOLDER));
         } catch (IOException e) {
             Log.e(TAG, String.format("Hash calculation failed. Reason - %s", e.toString()));
         } catch (NoSuchAlgorithmException e) {
