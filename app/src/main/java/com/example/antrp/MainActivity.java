@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int STORAGE_PERMISSION_CODE = 1;
 
+    static {
+        System.loadLibrary("antrp");
+    }
+
     private boolean checkStoragePermission() {
         if (SDK_INT >= 30) {
             Log.i(TAG, "Checking MANAGE_EXTERNAL_STORAGE permission for SDK_INT >= 30");
@@ -96,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Ensure JNI Hello world works
+        Log.d(TAG, "JNI: " + stringFromJNI());
+
         if (checkStoragePermission()) {
             runApkHashCheck();
         }
@@ -103,17 +111,19 @@ public class MainActivity extends AppCompatActivity {
         int[] resultsViews = {
                 R.id.dexFilesCheckResult,
                 R.id.resourcesCheckResult,
+                R.id.manifestCheckResult,
+                R.id.assetsCheckResult,
                 R.id.nativeLibsCheckResult,
-                // TODO: Android manifest checker
                 // TODO: Signature metadata checker
-                // TODO: Assets folder checker
-                // TODO: Native lib folder checker
-                // TODO: Resources.arsc checker
         };
 
         List<IntegrityChecker> checkers = new ArrayList<>();
         checkers.add(new DexIntegrityChecker());
-        //assert checkers.size() == resultsViews.length;
+        checkers.add(new ResIntegrityChecker());
+        checkers.add(new ManifestIntegrityChecker());
+        checkers.add(new AssetsIntegrityChecker());
+        checkers.add(new NativeLibIntegrityChecker());
+        assert checkers.size() == resultsViews.length;
 
         int size = checkers.size();
         for (int i = 0; i < size; i++) {
@@ -144,4 +154,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public native String stringFromJNI();
 }
