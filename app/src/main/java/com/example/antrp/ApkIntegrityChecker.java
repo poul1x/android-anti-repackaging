@@ -20,8 +20,8 @@ public class ApkIntegrityChecker implements IntegrityChecker {
 
 
     ApkIntegrityChecker() {
-        calculateApkHash();
         loadExpectedHash();
+        calculateHash();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ApkIntegrityChecker implements IntegrityChecker {
         return mCalculatedHash;
     }
 
-    private void calculateApkHash() {
+    private void calculateHash() {
         Log.i(TAG, String.format("Calculating own APK hash"));
         String apkFilePath = MyApplication.context.getPackageCodePath();
         try {
