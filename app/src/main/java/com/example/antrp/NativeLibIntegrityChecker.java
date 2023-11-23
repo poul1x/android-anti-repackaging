@@ -60,8 +60,6 @@ public class NativeLibIntegrityChecker implements IntegrityChecker {
             Log.e(TAG, String.format("Failed to load hash file. Reason - %s", e.toString()));
         } catch (IOException e) {
             Log.e(TAG, String.format("Failed to read hash file from assets. Reason - %s", e.toString()));
-        } catch (RuntimeException e) {
-            Log.e(TAG, String.format("RuntimeException: %s", e.toString()));
         }
     }
 
