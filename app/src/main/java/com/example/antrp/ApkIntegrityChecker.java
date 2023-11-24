@@ -1,8 +1,13 @@
 package com.example.antrp;
 
+import static com.example.antrp.Util.getCPUArch;
+import static com.example.antrp.Util.loadHashFileArch;
+import static com.example.antrp.Util.loadHashFileArchExternal;
+import static com.example.antrp.Util.loadHashFileExternal;
 import static com.example.antrp.Util.toHexString;
 
 import android.os.Environment;
+import android.text.TextDirectionHeuristics;
 import android.util.Log;
 
 import java.io.File;
@@ -11,13 +16,18 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ApkIntegrityChecker implements IntegrityChecker {
-
+public class ApkIntegrityChecker extends IntegrityChecker {
     private static final String TAG = ApkIntegrityChecker.class.getSimpleName();
+    private static final String DOCUMENTS_DIR = documentsDir();
+    private static final String HASH_FILE = "checksum.json";
+    private static final String CPU_ARCH = getCPUArch();
 
     private String mExpectedHash;
     private String mCalculatedHash;
 
+    private static String documentsDir() {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
+    }
 
     ApkIntegrityChecker() {
         loadExpectedHash();
@@ -29,7 +39,6 @@ public class ApkIntegrityChecker implements IntegrityChecker {
         return TAG;
     }
 
-    @Override
     public boolean passed() {
         return (
                 mCalculatedHash != null && mExpectedHash != null &&
@@ -37,29 +46,19 @@ public class ApkIntegrityChecker implements IntegrityChecker {
         );
     }
 
-    public void loadExpectedHash() {
-        try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "checksum.txt");
-            Log.i(TAG, String.format("Reading hash file %s", file.toString()));
-            mExpectedHash = FileReader.readToString(file.toString()).trim();
-        } catch (IOException e) {
-            Log.e(TAG, String.format("Failed to read hash file. Reason - %s", e.toString()));
-        }
-    }
 
-    @Override
-    public IntegrityCheckResult result() {
-        return passed() ? IntegrityCheckResult.PASSED : IntegrityCheckResult.FAILED;
-    }
-
-    @Override
-    public String expectedHash() {
+    public String getExpectedHash() {
         return mExpectedHash;
     }
 
-    @Override
-    public String calculatedHash() {
+    public String getCalculatedHash() {
         return mCalculatedHash;
+    }
+
+    public void loadExpectedHash() {
+        File file = new File(DOCUMENTS_DIR, HASH_FILE);
+        Log.i(TAG, String.format("Reading hash file %s", file.toString()));
+        mExpectedHash = loadHashFileArchExternal(file.toString(), CPU_ARCH);
     }
 
     private void calculateHash() {
@@ -77,12 +76,11 @@ public class ApkIntegrityChecker implements IntegrityChecker {
             fis.close();
 
         } catch (IOException e) {
-            String reason = "Failed to read own APK file";
+            String reason = String.format("Failed to read own APK file: %s", e.toString());
             Log.e(TAG, String.format("Hash calculation failed. Reason - %s", reason));
         } catch (NoSuchAlgorithmException e) {
             String reason = "Failed to instantiate SHA-256";
             Log.e(TAG, String.format("Hash calculation failed. Reason - %s", reason));
         }
     }
-
 }

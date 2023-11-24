@@ -55,7 +55,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Assets integrity check"
                 android:textSize="16sp" />
 
@@ -63,10 +63,19 @@
                 android:id="@+id/assetsCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/assetsCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAlignment="center"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +86,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Resources integrity check"
                 android:textSize="16sp" />
 
@@ -85,21 +94,32 @@
                 android:id="@+id/resourcesCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/resourcesCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAlignment="center"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:baselineAligned="true"
+            android:orientation="horizontal"
+            android:textAlignment="center">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="APK hash check"
                 android:textSize="16sp" />
 
@@ -107,10 +127,20 @@
                 android:id="@+id/apkHashCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/apkHashCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+
+                android:textAlignment="center"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -122,7 +152,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Dex Integrity check"
                 android:textSize="16sp" />
 
@@ -130,10 +160,19 @@
                 android:id="@+id/dexFilesCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/dexFilesCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAlignment="center"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -144,7 +183,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Native libs integrity check"
                 android:textSize="16sp" />
 
@@ -152,10 +191,19 @@
                 android:id="@+id/nativeLibsCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/nativeLibsCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAlignment="center"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,7 +214,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Manifest integrity check"
                 android:textSize="16sp" />
 
@@ -174,10 +222,19 @@
                 android:id="@+id/manifestCheckResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:text="@string/not_done"
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/manifestCheckProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAlignment="center"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@
     <string name="app_name">Anti-repackaging</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
+    <string name="running">Running</string>
     <string name="not_done">Not done</string>
     <string name="result">Result</string>
 </resources>

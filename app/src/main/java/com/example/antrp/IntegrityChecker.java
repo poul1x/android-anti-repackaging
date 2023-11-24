@@ -1,13 +1,18 @@
 package com.example.antrp;
 
-public interface IntegrityChecker {
-    public boolean passed();
+import java.security.NoSuchAlgorithmException;
 
-    public IntegrityCheckResult result();
+public abstract class IntegrityChecker {
 
-    public String name();
+    public abstract String name();
 
-    public String expectedHash();
+    public abstract boolean passed();
 
-    public String calculatedHash();
+    public IntegrityCheckResult result() {
+        return passed() ? IntegrityCheckResult.PASSED : IntegrityCheckResult.FAILED;
+    }
+
+    public abstract String getExpectedHash();
+
+    public abstract String getCalculatedHash();
 }
