@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                     Uri uri = Uri.parse("package:" + getApplicationContext().getPackageName());
                                     Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                                    startActivityForResult(intent, STORAGE_PERMISSION_CODE);
+                                    startActivity(intent);
                                 } catch (Exception ex) {
                                     Intent intent = new Intent();
                                     intent.setAction(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                                    startActivityForResult(intent, STORAGE_PERMISSION_CODE);
+                                    startActivity(intent);
                                 }
                             }
                         })
@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Log.i(TAG, "Checking READ_EXTERNAL_STORAGE permission for SDK_INT < 30");
-            int requestCode = STORAGE_PERMISSION_CODE;
             String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
             if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
                 Log.i(TAG, "READ_EXTERNAL_STORAGE granted");
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Grant", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, STORAGE_PERMISSION_CODE);
                             }
                         })
                         .show();
