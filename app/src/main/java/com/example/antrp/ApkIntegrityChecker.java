@@ -1,13 +1,10 @@
 package com.example.antrp;
 
 import static com.example.antrp.Util.getCPUArch;
-import static com.example.antrp.Util.loadHashFileArch;
 import static com.example.antrp.Util.loadHashFileArchExternal;
-import static com.example.antrp.Util.loadHashFileExternal;
 import static com.example.antrp.Util.toHexString;
 
 import android.os.Environment;
-import android.text.TextDirectionHeuristics;
 import android.util.Log;
 
 import java.io.File;

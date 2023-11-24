@@ -6,16 +6,12 @@ import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMI
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Browser;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -27,10 +23,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

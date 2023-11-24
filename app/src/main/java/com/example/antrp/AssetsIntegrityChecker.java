@@ -1,11 +1,7 @@
 package com.example.antrp;
 
-import static com.example.antrp.Util.loadAssetTxtFile;
 import static com.example.antrp.Util.loadHashFile;
 
-import android.util.Log;
-
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class AssetsIntegrityChecker extends ApkContentIntegrityChecker {

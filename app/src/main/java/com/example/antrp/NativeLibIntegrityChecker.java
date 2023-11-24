@@ -3,13 +3,6 @@ package com.example.antrp;
 import static com.example.antrp.Util.getCPUArch;
 import static com.example.antrp.Util.loadHashFileArch;
 
-import android.os.Build;
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class NativeLibIntegrityChecker extends ApkContentIntegrityChecker {
