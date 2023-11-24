@@ -11,8 +11,4 @@ public abstract class IntegrityChecker {
     public IntegrityCheckResult result() {
         return passed() ? IntegrityCheckResult.PASSED : IntegrityCheckResult.FAILED;
     }
-
-    public abstract String getExpectedHash();
-
-    public abstract String getCalculatedHash();
 }

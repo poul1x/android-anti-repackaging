@@ -6,13 +6,16 @@ import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMI
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Browser;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,6 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -114,6 +118,28 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 1500);
     }
 
+    private void runSignatureMetadataCheck() {
+        TextView textView = findViewById(R.id.sigMetaCheckResult);
+        ProgressBar progressBar = findViewById(R.id.sigMetaCheckProgressBar);
+
+        textView.setText(R.string.running);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = () -> {
+            SignatureMetadataChecker checker = new SignatureMetadataChecker();
+            runOnUiThread(() -> {
+                textView.setText(checker.result().toString());
+                progressBar.setVisibility(View.GONE);
+
+                Log.i(TAG, String.format("Checker: %s", checker.name()));
+                Log.i(TAG, String.format("result=%s", checker.result().toString()));
+            });
+        };
+
+        handler.postDelayed(runnable, 1500);
+    }
+
 
     private void scheduleIntegrityCheck(ApkContentIntegrityChecker checker, TextView textView, ProgressBar progressBar) throws NoSuchAlgorithmException {
         textView.setText(R.string.running);
@@ -188,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         runIntegrityChecks();
+        runSignatureMetadataCheck();
     }
 
     @Override
