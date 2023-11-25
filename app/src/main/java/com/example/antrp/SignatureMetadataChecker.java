@@ -1,5 +1,8 @@
 package com.example.antrp;
 
+import static com.example.antrp.Util.loadHashFile;
+import static com.example.antrp.Util.toHexString;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -13,7 +16,7 @@ import java.security.cert.X509Certificate;
 public class SignatureMetadataChecker extends IntegrityChecker {
 
     private static final String TAG = SignatureMetadataChecker.class.getSimpleName();
-    private static final String DN = "CN=|You Can't|,OU=|Hack|,O=|My|,L=|App|,ST=|I'm number|,C=|01|";
+    private static final String KEY_FILE = "public_key.txt";
     private boolean mPassed = false;
 
     @Override
@@ -26,8 +29,9 @@ public class SignatureMetadataChecker extends IntegrityChecker {
     }
 
     SignatureMetadataChecker() {
-        checkSubjectDN();
+        checkPublicKey();
     }
+
 
     private static X509Certificate getX509Certificate(Signature signature) {
         try {
@@ -35,28 +39,32 @@ public class SignatureMetadataChecker extends IntegrityChecker {
             CertificateFactory certFactory = java.security.cert.CertificateFactory.getInstance("X.509");
             return (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(signatureBytes));
         } catch (CertificateException e) {
-            e.printStackTrace();
+            Log.e(TAG, String.format("Failed to get X509Certificate. Reason - %s", e.toString()));
             return null;
         }
     }
 
-    private void checkSubjectDN() {
+    private void checkPublicKey() {
+        String origPublicKeyString = loadHashFile(KEY_FILE);
+        if (origPublicKeyString == null) {
+            return;
+        }
+
         try {
             String packageName = MyApplication.context.getPackageName();
             PackageManager packageManager = MyApplication.context.getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
 
-            Signature[] signatures = packageInfo.signatures;
-            for (Signature signature : signatures) {
+            for (Signature signature : packageInfo.signatures) {
                 X509Certificate cert = getX509Certificate(signature);
                 if (cert == null) {
                     continue;
                 }
 
-                String subjectDN = cert.getSubjectDN().getName();
-                Log.d(TAG, String.format("getSubjectDN(): %s", subjectDN));
+                String publicKeyString = toHexString(cert.getPublicKey().getEncoded());
+                Log.d(TAG, String.format("Found public key %s", publicKeyString));
 
-                if (subjectDN.equals(DN)) {
+                if (publicKeyString.equals(origPublicKeyString)) {
                     mPassed = true;
                     break;
                 }
