@@ -26,11 +26,11 @@ curl -LJO https://github.com/poul1x/android-anti-repackaging/releases/download/0
 adb install antrp.apk
 
 # Download APK hash file and put it in the Documents folder
-curl -LJO https://github.com/poul1x/android-anti-repackaging/blob/0.1.0/apk_hash.txt
+curl -LJO  https://raw.githubusercontent.com/poul1x/android-anti-repackaging/0.1.0/apk_hash.txt
 adb push apk_hash.txt /sdcard/Documents
 
 # Run application
-monkey -p com.example.antrp 1
+adb shell monkey -p com.example.antrp 1
 ```
 
 Application must have all integrity checks passed
