@@ -1,16 +1,14 @@
 package com.example.antrp;
 
-import static com.example.antrp.Util.getCPUArch;
-import static com.example.antrp.Util.loadHashFileArch;
+import static com.example.antrp.Util.loadHashFile;
 
 import java.security.NoSuchAlgorithmException;
 
 public class NativeLibIntegrityChecker extends ApkContentIntegrityChecker {
 
     private static final String TAG = NativeLibIntegrityChecker.class.getSimpleName();
-    private static final String HASH_FILE = "lib_hash.json";
-    private static final String CPU_ARCH = getCPUArch();
-    private static final String LIB_FOLDER = "lib/" + CPU_ARCH;
+    private static final String HASH_FILE = "lib_hash.txt";
+    private static final String LIB_FOLDER = "lib/";
 
     @Override
     public String name() {
@@ -19,7 +17,7 @@ public class NativeLibIntegrityChecker extends ApkContentIntegrityChecker {
 
     @Override
     protected String loadExpectedHash() {
-        return loadHashFileArch(HASH_FILE, CPU_ARCH);
+        return loadHashFile(HASH_FILE);
     }
 
     @Override

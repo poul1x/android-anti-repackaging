@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                     Uri uri = Uri.parse("package:" + getApplicationContext().getPackageName());
                                     Intent intent = new Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, STORAGE_PERMISSION_CODE);
                                 } catch (Exception ex) {
                                     Intent intent = new Intent();
                                     intent.setAction(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, STORAGE_PERMISSION_CODE);
                                 }
                             }
                         })
@@ -208,6 +208,18 @@ public class MainActivity extends AppCompatActivity {
 
         runIntegrityChecks();
         runSignatureMetadataCheck();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (checkStoragePermission()) {
+                runApkHashCheck();
+            } else {
+                Log.i(TAG, "MANAGE_EXTERNAL_STORAGE permission denied");
+            }
+        }
     }
 
     @Override
