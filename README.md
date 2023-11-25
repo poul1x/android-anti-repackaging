@@ -10,7 +10,7 @@ The standard method for safeguarding the APK from repackaging involves computing
 
 Another approach is to validate that the public key of the APK signature corresponds to the original key.
 
-Finally, it is feasible to compute a hash sum for the entire APK file, but the original hash sum must be obtained from a remote source, particularly an API server or external storage (for educational purposes only).
+Finally, it is feasible to compute a hash sum for the entire APK file, but the original hash sum must be obtained from a remote source, particularly an API server or external storage (for testing only).
 
 All techniques mentioned above have been implemented in this repository.
 
